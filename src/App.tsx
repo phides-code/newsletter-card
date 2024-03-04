@@ -1,35 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import styled from 'styled-components';
+import Card from './Card';
+import { useEffect, useState } from 'react';
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+    const [isMobile, setisMobile] = useState<boolean>(false);
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    useEffect(() => {
+        const detectMobile = () => {
+            const mobileThreshold = 768; // Threshold for isMobile devices (adjust as needed)
 
-export default App
+            setisMobile(window.innerWidth < mobileThreshold);
+        };
+
+        detectMobile();
+        // Function to check if the window is resized
+        const handleResize = () => {
+            detectMobile();
+        };
+        window.addEventListener('resize', handleResize);
+
+        // Clean up the event listener on unmount
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
+    return (
+        <Wrapper>
+            <Card isMobile={isMobile} />
+        </Wrapper>
+    );
+};
+
+const Wrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+`;
+
+export default App;
