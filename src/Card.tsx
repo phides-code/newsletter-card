@@ -126,6 +126,7 @@ const Wrapper = styled.div<StyledComponentProps>`
     background-color: white;
     border-radius: 5px;
     max-width: 50rem;
+    box-shadow: 6px 5px 0px 2px #f0f2fd;
 
     margin: ${(props) => (props.$mobile === 'true' ? '0 0.5rem' : '0 5rem')};
     padding: ${(props) =>
